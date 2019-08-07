@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29021.104
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNApp", "MNApp\MNApp.csproj", "{496968BC-381F-47C4-A749-1CDF5DA9A297}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MNApp", "MNApp\MNApp.csproj", "{496968BC-381F-47C4-A749-1CDF5DA9A297}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNApp.Lib", "MNApp.Lib\MNApp.Lib.csproj", "{859C7048-6C6F-448B-8EDD-F67B64E19C21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MNApp.Lib", "MNApp.Lib\MNApp.Lib.csproj", "{859C7048-6C6F-448B-8EDD-F67B64E19C21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNApp.DAL", "MNApp.DAL\MNApp.DAL.csproj", "{ED1A4AC5-1667-4BC6-A30A-E557BCBB26A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{859C7048-6C6F-448B-8EDD-F67B64E19C21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{859C7048-6C6F-448B-8EDD-F67B64E19C21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{859C7048-6C6F-448B-8EDD-F67B64E19C21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED1A4AC5-1667-4BC6-A30A-E557BCBB26A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED1A4AC5-1667-4BC6-A30A-E557BCBB26A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED1A4AC5-1667-4BC6-A30A-E557BCBB26A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED1A4AC5-1667-4BC6-A30A-E557BCBB26A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
