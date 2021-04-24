@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Whois.NET;
 
 namespace MNApp
 {
@@ -41,7 +42,7 @@ namespace MNApp
             
 
             ConsoleKey menuSelect;
-             Console.WriteLine("Database Migrate start");
+            Console.WriteLine("Database Migrate start");
             db.Database.Migrate();
             menuSelect = SelectMenu();
             switch (menuSelect)
@@ -125,8 +126,8 @@ namespace MNApp
                 }
                 else
                 {
-                    EMailExtract.NetConnectionCheckAndWait();
-                    p.IsPing = EMailExtract.PingHost(p.Name);
+                    long n = EMailExtract.NetConnectionCheckAndWait();
+                    p.IsPing = (n == 1)? false : EMailExtract.PingHost(p.Name);
                     RecCount++;
                 }
                 if (EMailExtract.escPressed) return;
@@ -135,9 +136,53 @@ namespace MNApp
 
         static void FetchDate()
         {
-            Console.WriteLine("FetchDate coming soon");
-            Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
+            Whois.Parsers.WhoisParser whoisParser = new Whois.Parsers.WhoisParser();
+            foreach (var p in db.DomainDetails.Where(x => x.HasDate == null))
+            {
+                Console.WriteLine($"Fetch Date => {p.Name}");
+                WhoisResponse d = WhoisClient.Query(p.Name);
+                var d2 = whoisParser.Parse(d.RespondedServers[d.RespondedServers.Length - 1], d.Raw);
+
+                if (d2.Registered != null && d2.Updated != null && d2.Expiration != null)
+                {
+                    p.HasDate = true;
+                    p.RegisterAt = d2.Registered;
+                    p.UpdateAt = d2.Updated;
+                    p.ExpiryAt = d2.Expiration;
+
+                    RecCount++;
+                }
+                else
+                {
+                    long n = EMailExtract.NetConnectionCheckAndWait();
+                    if (n == 1)
+                    {
+                        p.HasDate = false;
+                        RecCount++;
+                    }
+                    else
+                    {
+                        d = WhoisClient.Query(p.Name);
+                        d2 = whoisParser.Parse(d.RespondedServers[d.RespondedServers.Length - 1], d.Raw);
+
+                        if (d2.Registered != null && d2.Updated != null && d2.Expiration != null)
+                        {
+                            p.HasDate = true;
+                            p.RegisterAt = d2.Registered;
+                            p.UpdateAt = d2.Updated;
+                            p.ExpiryAt = d2.Expiration;
+                            RecCount++;
+                        }
+                        else
+                        {
+                            p.HasDate = false;
+                            RecCount++;
+                        }
+                    }
+                    
+                }
+                if (EMailExtract.escPressed) return;
+            }
         }
 
         static void FetchContactURL()

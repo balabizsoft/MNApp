@@ -68,9 +68,9 @@ namespace MNApp.Lib
             }
         }
 
-        public static bool PingHost(string nameOrAddress)
+        public static bool PingHost(string nameOrAddress,bool IsWriteLog = true)
         {
-            Console.WriteLine($"{nameOrAddress} Ping  start");
+            if(IsWriteLog)Console.WriteLine($"{nameOrAddress} Ping  start");
             bool pingable = false;
             Ping pinger = null;
 
@@ -91,24 +91,24 @@ namespace MNApp.Lib
                     pinger.Dispose();
                 }
             }
-            Console.WriteLine($"{nameOrAddress} Ping  result {pingable}");
-            Console.WriteLine($"{nameOrAddress} Ping  end");
+            if (IsWriteLog) Console.WriteLine($"{nameOrAddress} Ping  result {pingable}");
+            if (IsWriteLog) Console.WriteLine($"{nameOrAddress} Ping  end");
             return pingable;
         }
 
-        public static bool NetConnectionCheckAndWait()
+        public static long NetConnectionCheckAndWait()
         {
             long n = 1;
             bool r = false;
             while (!EMailExtract.escPressed)
             {
+                r = PingHost("google.com",false);
+                if (r) return n; 
                 Console.WriteLine($"NetConnectionCheckAndWait => {n++}");
-                r = PingHost("google.com");
-                if (r) return true; 
                 Thread.Sleep(2000);
             }
             Console.WriteLine("Escape key pressed");
-            return false;
+            return n;
         }
 
     }
