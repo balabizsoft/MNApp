@@ -9,10 +9,12 @@ namespace MNApp.DAL
     {
         public DbSet<FileDetail> FileDetails { get; set; }
 
+        public DbSet<DomainDetail> DomainDetails { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlite("Data Source=MNApp.db");
+            optionsBuilder.UseSqlite("Data Source=MNApp123.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

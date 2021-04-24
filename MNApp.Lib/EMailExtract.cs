@@ -2,11 +2,14 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using System.Net.NetworkInformation;
+using System.Threading;
 
 namespace MNApp.Lib
 {
     public class EMailExtract
     {
+        public static bool escPressed = false;
         private string currentDir;
 
         public string CurrentDir
@@ -64,5 +67,49 @@ namespace MNApp.Lib
                 return fileInfos;
             }
         }
+
+        public static bool PingHost(string nameOrAddress)
+        {
+            Console.WriteLine($"{nameOrAddress} Ping  start");
+            bool pingable = false;
+            Ping pinger = null;
+
+            try
+            {
+                pinger = new Ping();
+                PingReply reply = pinger.Send(nameOrAddress);
+                pingable = reply.Status == IPStatus.Success;
+            }
+            catch (PingException)
+            {
+                // Discard PingExceptions and return false;
+            }
+            finally
+            {
+                if (pinger != null)
+                {
+                    pinger.Dispose();
+                }
+            }
+            Console.WriteLine($"{nameOrAddress} Ping  result {pingable}");
+            Console.WriteLine($"{nameOrAddress} Ping  end");
+            return pingable;
+        }
+
+        public static bool NetConnectionCheckAndWait()
+        {
+            long n = 1;
+            bool r = false;
+            while (!EMailExtract.escPressed)
+            {
+                Console.WriteLine($"NetConnectionCheckAndWait => {n++}");
+                r = PingHost("google.com");
+                if (r) return true; 
+                Thread.Sleep(2000);
+            }
+            Console.WriteLine("Escape key pressed");
+            return false;
+        }
+
     }
 }
