@@ -14,7 +14,7 @@ namespace MNApp.DAL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlite("Data Source=MNApp123.db");
+            optionsBuilder.UseSqlite("Data Source=MNApp.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

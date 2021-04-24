@@ -137,7 +137,7 @@ namespace MNApp
         static void FetchDate()
         {
             Whois.Parsers.WhoisParser whoisParser = new Whois.Parsers.WhoisParser();
-            foreach (var p in db.DomainDetails.Where(x => x.HasDate == null))
+            foreach (var p in db.DomainDetails.Where(x => x.HasDate == null && x.IsPing==true))
             {
                 Console.WriteLine($"Fetch Date => {p.Name}");
                 WhoisResponse d = WhoisClient.Query(p.Name);
